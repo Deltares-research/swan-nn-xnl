@@ -12,17 +12,17 @@ It is permitted to copy, reuse, adapt and distribute the SWAN source code provid
 
 ## installation
 
-### prerequisites
+#### prerequisites
 
-To install SWAN on your local system, **CMake** and **Ninja** (or **GNU make**) need to be installed first.
+To install SWAN on your local system, **CMake** and **Ninja** (or GNU make) need to be installed first.
 We recommend to use [CMake 3.12+](https://cmake.org/) for building SWAN.
-**CMake** is an build system and makes use of scripts (or configuration files) that control the build process.
+CMake is an build system and makes use of scripts (or configuration files) that control the build process.
 There are installers available for Windows, Linux and macOS. See the
 [download](https://cmake.org/download/) page for CMake installation instructions.
 
-[**Ninja**](https://ninja-build.org/) is one of the many build tools to create executable files and libraries from source code.
-The way it works is very similar to **GNU make** (or **NMAKE** for Windows); for example, it does not rebuild things that are already up to date.
-**Ninja** can be downloaded from its [git repository](https://github.com/ninja-build/ninja/releases).
+[Ninja](https://ninja-build.org/) is one of the many build tools to create executable files and libraries from source code.
+The way it works is very similar to GNU make (or NMAKE for Windows); for example, it does not rebuild things that are already up to date.
+Ninja can be downloaded from its [git repository](https://github.com/ninja-build/ninja/releases).
 
 SWAN also requires a Fortran90 compiler to be present in your environment.
 Popular Fortran compilers are [gfortran](https://gcc.gnu.org/fortran/) and
@@ -39,7 +39,7 @@ Currently, the build scripts supports the following Fortran compilers:
 1. Lahey
 1. IBM XL Fortran
 
-### instructions
+#### instructions
 
 ##### 1. clone the repo and navigate to the top level source directory
 
@@ -55,13 +55,13 @@ At the top of SWAN source directory execute the following commands
 $ mkdir build && cd build
 ```
 
-This step is required to perform an out-of-source build with **CMake**, that is, build files will not be created in the `/swan/src` directory.
+This step is required to perform an out-of-source build with CMake, that is, build files will not be created in the `/swan/src` directory.
 
 ##### 3. build the software
 
 Two CMake configuration files are provided required for the build. They are placed in two source directories: `./swan/CMakeLists.txt` and `./swan/src/CMakeLists.txt`.
 
-The following two **CMake** commands should suffice to build SWAN
+The following two CMake commands should suffice to build SWAN
 
 ```bash
 $ cmake .. -G Ninja
@@ -70,7 +70,7 @@ $ cmake --build .
 
 The first command refers to the source directory where the main configuration file is invoked. The second command carries out the building in the build directory.
 
-The package is actually built by invoking **Ninja**. An alternative would be to use **GNU make**, as follows
+The package is actually built by invoking Ninja. An alternative would be to use GNU make, as follows
 
 ```bash
 $ cmake .. -G "Unix Makefiles"
@@ -84,7 +84,7 @@ $ cmake ..
 $ make
 ```
 
-However, we recommend **Ninja** because it is faster than **GNU make**.
+However, we recommend Ninja because it is faster than GNU make.
 
 ##### 4. install the package
 
@@ -94,7 +94,7 @@ To install SWAN, run either
 $ cmake --install .
 ```
 
-or with **GNU make**
+or with GNU make
 
 ```bash
 $ make install
@@ -121,9 +121,9 @@ contains all of the files that do not fit in other folders (e.g., a machinefile 
 
 Please note that the installation can be skipped (though not recommended). Executables and libraries are then located in subdirectories of the build directory.
 
-### configuring the build
+#### configuring the build
 
-The build can be (re)configured by passing one or more options to the **CMake** command with prefix `-D`. A typical command line looks like
+The build can be (re)configured by passing one or more options to the CMake command with prefix `-D`. A typical command line looks like
 
 ```bash
 $ cmake .. -D<option>=<value>
@@ -131,7 +131,7 @@ $ cmake .. -D<option>=<value>
 
 where `<value>` is a string or an boolean, depending on the specified option. The table below provides an overview of the non-required options that can be used.
 
-| option                   | value type | description                               | default value           |
+|  option                  | value type |               description                 | default value           |
 |:------------------------:|:-----------|:------------------------------------------|:-----------------------:|
 | `CMAKE_INSTALL_PREFIX`   | string     | user-defined installation path            | `/usr/local/swan`       |
 | `CMAKE_PREFIX_PATH`      | string     | semicolon-separated list of library paths | empty                   |
@@ -148,7 +148,7 @@ $ cmake .. -GNinja -DNETCDF=ON -DMPI=ON
 $ cmake --build .
 ```
 
-will configure SWAN to be built created by **Ninja** that supports netCDF output and parallel computing using the MPI paradigm.
+will configure SWAN to be built created by Ninja that supports netCDF output and parallel computing using the MPI paradigm.
 Note that CMake will check the availability of MPI and netCDF libraries within your environment.
 Also note that netCDF libraries might be installed in a custom directory (e.g., `/home/your/name/netcdf`), which must then be a priori specified on the command line as follows:
 
@@ -162,7 +162,7 @@ or
 $ cmake .. [options] -DCMAKE_PREFIX_PATH=/path/to/netcdf/directory
 ```
 
-so that **CMake** can find them.
+so that CMake can find them.
 
 The system default Fortran compiler (e.g., f77, g95) can be overwritten as follows
 
@@ -170,7 +170,7 @@ The system default Fortran compiler (e.g., f77, g95) can be overwritten as follo
 $ cmake .. [options] -DCMAKE_Fortran_COMPILER=/path/to/the/desired/compiler/including/the/name/of/compiler
 ```
 
-Finally, if **CMake** fails to configure your project, then execute
+Finally, if CMake fails to configure your project, then execute
 
 ```bash
 $ cmake .. [options] -DCMAKE_VERBOSE_MAKEFILE=ON
@@ -178,7 +178,7 @@ $ cmake .. [options] -DCMAKE_VERBOSE_MAKEFILE=ON
 
 which will generate detailed information that may provide some indications to debug the build process.
 
-### clean up the build files
+#### clean up the build files
 
 To remove the build directory and all files that have been created after running `cmake --build .`, run at the top level of your project the following command:
 
@@ -186,7 +186,7 @@ To remove the build directory and all files that have been created after running
 $ cmake -P clobber.cmake
 ```
 
-(The `-P` argument passed to **CMake** will execute a script *<file>.cmake*.)
+(The `-P` argument passed to CMake will execute a script *<file>.cmake*.)
 
 ## getting started
 
@@ -195,7 +195,7 @@ Chapters [2](https://swanmodel.sourceforge.io/online_doc/swanuse/node2.html#ch:d
 [3](https://swanmodel.sourceforge.io/online_doc/swanuse/node15.html#ch:inout)
 of the SWAN's [User GUide](https://swanmodel.sourceforge.io/online_doc/swanuse/swanuse.html).*
 
-### run modes
+#### run modes
 
 There are three different modes in which you can run SWAN:
 
@@ -205,7 +205,7 @@ There are three different modes in which you can run SWAN:
 
 See the above installation instructions for getting the proper executable.
 
-### how to run
+#### how to run
 
 The general run procedure is as follows:
 
