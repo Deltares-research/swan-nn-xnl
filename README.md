@@ -131,7 +131,7 @@ $ cmake .. -D<option>=<value>
 
 where `<value>` is a string or an boolean, depending on the specified option. The table below provides an overview of the non-required options that can be used.
 
-| option                   | value type | description                               | default value           |
+|: option                 : |: value type :|: description                               :|: default value           :|
 |:------------------------:|:-----------|:------------------------------------------|:-----------------------:|
 | `CMAKE_INSTALL_PREFIX`   | string     | user-defined installation path            | `/usr/local/swan`       |
 | `CMAKE_PREFIX_PATH`      | string     | semicolon-separated list of library paths | empty                   |
