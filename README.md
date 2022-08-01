@@ -131,6 +131,20 @@ $ cmake .. -D<option>=<value>
 
 where `<value>` is a string or an boolean, depending on the specified option. The table below provides an overview of the non-required options that can be used.
 
+<table>
+<thead>
+<tr>
+<th align="center">abc</th>
+<th align="right">defghi</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">bar</td>
+<td align="right">baz</td>
+</tr></tbody></table>
+
+
 |  option                  | value type |               description                 | default value           |
 |:------------------------:|:-----------|:------------------------------------------|:-----------------------:|
 | `CMAKE_INSTALL_PREFIX`   | string     | user-defined installation path            | `/usr/local/swan`       |
