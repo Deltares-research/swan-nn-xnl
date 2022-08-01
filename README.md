@@ -135,7 +135,7 @@ where `<value>` is a string or an boolean, depending on the specified option. Th
 |:------------------------:|:-----------|:------------------------------------------|:-----------------------:|
 | `CMAKE_INSTALL_PREFIX`   | string     | user-defined installation path            | `/usr/local/swan`       |
 | `CMAKE_PREFIX_PATH`      | string     | semicolon-separated list of library paths | empty                   |
-| `CMAKE_Fortran_COMPILER` | string     | full path to the Fortran compiler         | determined by **CMake** |
+| `CMAKE_Fortran_COMPILER` | string     | full path to the Fortran compiler         | determined by CMake     |
 | `MPI`                    | boolean    | enable build with MPI                     | `OFF`                   |
 | `OPENMP`                 | boolean    | enable build with OpenMP                  | `OFF`                   |
 | `NETCDF`                 | boolean    | enable build with netCDF                  | `OFF`                   |
