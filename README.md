@@ -225,7 +225,7 @@ $ mpirun -np <n> swan.exe
 
 with `<n>` the number of desired nodes.
 
-The above procedure can be done automatically using the script `/bin/swanrun` (or `\bin\swanrun.bat` for Windows), provided that the
+The above procedure can be done automatically using the script `/bin/swanrun` (or `\bin\swanrun.bat` in case of Windows), provided that the
 environment variable `PATH` has been adapted by including the path of the `/bin` directory.
 
 For more details, consult the [Implementation manual](https://swanmodel.sourceforge.io/online_doc/swanimp/node12.html).
