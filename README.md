@@ -59,7 +59,7 @@ This step is required to perform an out-of-source build with CMake, that is, bui
 
 ##### 3. build the software
 
-Two CMake configuration files are provided as required for the build. They are placed in two source directories: `./swan/CMakeLists.txt` and `./swan/src/CMakeLists.txt`.
+Two CMake configuration files are provided as required for the build. They are placed in the following source directories: `./swan/CMakeLists.txt` and `./swan/src/CMakeLists.txt`.
 
 The following two CMake commands should suffice to build SWAN
 
