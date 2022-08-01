@@ -186,7 +186,7 @@ To remove the build directory and all files that have been created after running
 $ cmake -P clobber.cmake
 ```
 
-(The `-P` argument passed to CMake will execute a script *<file>.cmake*.)
+(The `-P` argument passed to CMake will execute a script *\<file\>.cmake*.)
 
 ## getting started
 
