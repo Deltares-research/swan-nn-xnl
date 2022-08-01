@@ -233,9 +233,9 @@ For more details, consult the [Implementation manual](https://swanmodel.sourcefo
 ## Documents
 
 See
-1. the [Implementation Manual](https://swanmodel.sourceforge.io/online_doc/swanimp/swanimp.html)
-1. the [User Manual](https://swanmodel.sourceforge.io/online_doc/swanuse/swanuse.html)
-1. the [Scientific/technical documentation](https://swanmodel.sourceforge.io/online_doc/swantech/swantech.html)
+1. the [Implementation Manual](https://swanmodel.sourceforge.io/online_doc/swanimp/swanimp.html) that describes in detail the installation and the usage of the SWAN model
+1. the [User Manual](https://swanmodel.sourceforge.io/online_doc/swanuse/swanuse.html) that provides the specifications for the input of the SWAN model
+1. the [Scientific/technical documentation](https://swanmodel.sourceforge.io/online_doc/swantech/swantech.html) that discusses the physical and mathematical details and the discretizations that have been implemented in the SWAN software
 
 ## Bugs and questions
 
