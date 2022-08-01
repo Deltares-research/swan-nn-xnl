@@ -94,7 +94,7 @@ To install SWAN, run either
 $ cmake --install .
 ```
 
-or with GNU make
+or with the GNU make
 
 ```bash
 $ make install
