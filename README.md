@@ -193,7 +193,7 @@ $ cmake -P clobber.cmake
 *Note: before start using the SWAN package, it is suggested to first read
 Chapters [2](https://swanmodel.sourceforge.io/online_doc/swanuse/node2.html#ch:defin) and
 [3](https://swanmodel.sourceforge.io/online_doc/swanuse/node15.html#ch:inout)
-of the SWAN's [User GUide](https://swanmodel.sourceforge.io/online_doc/swanuse/swanuse.html).*
+of the [SWAN's User Guide](https://swanmodel.sourceforge.io/online_doc/swanuse/swanuse.html).*
 
 #### run modes
 
