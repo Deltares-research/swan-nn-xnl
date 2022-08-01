@@ -131,62 +131,6 @@ $ cmake .. -D<option>=<value>
 
 where `<value>` is a string or an boolean, depending on the specified option. The table below provides an overview of the non-required options that can be used.
 
-<table>
-  <thead>
-    <tr>
-      <th align="center">option</th>
-      <th align="center">value type</th>
-      <th align="center">description</th>
-      <th align="center">default value</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td align="center">`CMAKE_INSTALL_PREFIX`</td>
-      <td align="left">string</td>
-      <td align="left">user-defined installation path</td>
-      <td align="center">`/usr/local/swan`</td>
-    </tr>
-    <tr>
-      <td align="center">`CMAKE_PREFIX_PATH`</td>
-      <td align="left">string</td>
-      <td align="left">semicolon-separated list of library paths</td>
-      <td align="center">empty</td>
-    </tr>
-    <tr>
-      <td align="center">`CMAKE_Fortran_COMPILER`</td>
-      <td align="left">string</td>
-      <td align="left">full path to the Fortran compiler</td>
-      <td align="center">determined by CMake</td>
-    </tr>
-    <tr>
-      <td align="center">`MPI`</td>
-      <td align="left">boolean</td>
-      <td align="left">enable build with MPI</td>
-      <td align="center">`OFF`</td>
-    </tr>
-    <tr>
-      <td align="center">`OPENMP`</td>
-      <td align="left">boolean</td>
-      <td align="left">enable build with OpenMP</td>
-      <td align="center">`OFF`</td>
-    </tr>
-    <tr>
-      <td align="center">`NETCDF`</td>
-      <td align="left">boolean</td>
-      <td align="left">enable build with netCDF</td>
-      <td align="center">`OFF`</td>
-    </tr>
-    <tr>
-      <td align="center">`CMAKE_VERBOSE_MAKEFILE`</td>
-      <td align="left">boolean</td>
-      <td align="left">provide verbose output of the build</td>
-      <td align="center">`OFF`</td>
-    </tr>
-  </tbody>
-</table>
-
-
 |  option                  | value type |               description                 | default value           |
 |:------------------------:|:-----------|:------------------------------------------|:-----------------------:|
 | `CMAKE_INSTALL_PREFIX`   | string     | user-defined installation path            | `/usr/local/swan`       |
