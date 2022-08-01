@@ -7,7 +7,7 @@ Please also check the [release notes](https://swanmodel.sourceforge.io/modificat
 This Readme provides a brief overview of software installation and configuration instructions for users and developers.
 Please see the [Implementation Manual](https://swanmodel.sourceforge.io/online_doc/swanimp/swanimp.html) for additional documentation.
 
-In addition to the installation, a brief outline on how to run the model is provided as well.
+In addition to the installation, a brief outline on how to run the model is given below.
 
 The SWAN software can be used freely under the terms of the [GNU General Public License](https://gitlab.tudelft.nl/citg/wavemodels/swan/-/blob/main/LICENSE).
 It is permitted to copy, reuse, adapt and distribute the SWAN source code provided that proper reference is made to the original work.
