@@ -26,7 +26,7 @@ There are installers available for Windows, Linux and macOS. See the
 The way it works is very similar to GNU make (or NMAKE for Windows); for example, it does not rebuild things that are already up to date.
 Ninja can be downloaded from its [git repository](https://github.com/ninja-build/ninja/releases).
 
-In addition to the build tools a Perl package must be available on your local computer.
+In addition to the build tools, a Perl package must be available on your local computer.
 Usually, it is available for macOS, Linux and a UNIX-like operating system. Check it by typing `perl -v`.
 Otherwise, you can download Perl from [ActiveState](https://www.activestate.com/products/perl/).
 The Perl version should be at least 5.0.0 or higher.
