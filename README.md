@@ -18,7 +18,7 @@ It is permitted to copy, reuse, adapt and distribute the SWAN source code provid
 
 To install SWAN on your local system, CMake and Ninja (or GNU make) need to be installed first.
 We recommend to use [CMake 3.12+](https://cmake.org/) for building SWAN.
-CMake is an build system and makes use of scripts (or configuration files) that control the build process.
+CMake is a build system and makes use of scripts (or configuration files) that control the build process.
 There are installers available for Windows, Linux and macOS. See the
 [download](https://cmake.org/download/) page for CMake installation instructions.
 
