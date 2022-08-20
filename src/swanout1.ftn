@@ -1600,6 +1600,7 @@
      &        KK, IXB, IXE, IYB, IYE, IX, IY
       REAL UXLOC,UYLOC,RDIST,RDX,RDY,RR,UBLOC,F1,RTMP,XP1,YP1
       REAL RVAL1, RVAL2
+      LOGICAL CVTK                                                        41.95
 !
       INTEGER IVTYPE ! temporary counter for NMOVAR, used in VOQR,
                      ! OQPROC, OVKEYW, etc.
@@ -2815,6 +2816,10 @@
      &        VOQ(IP,IVYP) = YP1 + YOFFS
       ENDDO
 !
+!     --- scan comp. grid as output frame in case of VTK format           41.95
+!
+      CVTK = LCOMPGRD .AND. RTYPE.EQ.'BLKV'                               41.95
+!
 !     --- in case of parallel run, mark location points inside own        40.31
 !         subdomain                                                       40.31
 
@@ -2836,9 +2841,9 @@
             IY = INT(YC(IP))                                              41.07 40.31
             RVAL1 = FLOAT(IX)
             RVAL2 = FLOAT(IY)
-            IF ( .NOT.EQREAL(XC(IP),RVAL1) .OR.
+            IF ( .NOT.( CVTK .OR. EQREAL(XC(IP),RVAL1) ) .OR.
      &                EQREAL(XC(IP),0.)) IX = IX + 1
-            IF ( .NOT.EQREAL(YC(IP),RVAL2) .OR.
+            IF ( .NOT.( CVTK .OR. EQREAL(YC(IP),RVAL2) ) .OR.
      &                EQREAL(YC(IP),0.)) IY = IY + 1
             IF ( IX.GE.IXB .AND. IX.LE.IXE .AND.                          40.31
      &           IY.GE.IYB .AND. IY.LE.IYE ) IONOD(IP) = INODE            40.31
