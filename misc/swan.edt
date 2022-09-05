@@ -146,7 +146,7 @@
 !        |                                                             |
 !   BRE <     RUE [alpha] [a] [b]                                       >   &
 !        |                                                             |
-!        |    BKD [alpha] [gamma0] [a1] [a2] [a3]                      |
+!        |    BKD [alpha] [gamma0] [a1] [a2] [a3] [npnts]              |
 !        |                                                             |
 !        |    TG  [alpha] [gamma] [pown]                               |
 !
@@ -281,7 +281,7 @@
 !             DHSIGN|DRTM01|LEAK|TSEC|XP|YP|DIST|SETUP|TMM10|RTMM10|DEPTH|  &
 !             TMBOT|QP|BFI|NPLANT|WATLEV|BOTLEV|TPS|DISBOT|DISSURF|DISWCAP| &
 !             GENE|GENW|REDI|REDQ|REDT|REDB|REDC|PROPA|PROPX|PROPT|PROPS|   &
-!             RADS|LWAVP|HBIG|DISTUR|TURB|DISMUD|DISSWELL|AICE|DISICE|      &
+!             RADS|LWAVP|HBIG|GAMMA|DISTUR|TURB|DISMUD|DISSWELL|AICE|DISICE|&
 !             PTHSIGN|PTRTP|PTWLEN|PTDIR|PTDSPR|PTWFRAC|PTSTEEP|PARTIT >    &
 !             ([unit]) (OUTPUT [tbegblk] [deltblk] SEC|MIN|HR|DAY)
 !
@@ -291,7 +291,7 @@
 !             DHSIGN|DRTM01|LEAK|TIME|TSEC|XP|YP|DIST|SETUP|TMM10|RTMM10|   &
 !             DEPTH|TMBOT|QP|BFI|WATLEV|BOTLEV|TPS|DISBOT|DISSURF|DISWCAP|  &
 !             GENE|GENW|REDI|REDQ|REDT|REDB|REDC|PROPA|PROPX|PROPT|PROPS|   &
-!             RADS|LWAVP|HBIG|DISTUR|TURB|DISMUD|DISSWELL|AICE|DISICE|      &
+!             RADS|LWAVP|HBIG|GAMMA|DISTUR|TURB|DISMUD|DISSWELL|AICE|DISICE|&
 !             PTHSIGN|PTRTP|PTWLEN|PTDIR|PTDSPR|PTWFRAC|PTSTEEP >           &
 !             ([unit]) (OUTPUT [tbegtbl] [delttbl] SEC|MIN|HR|DAY)
 !
