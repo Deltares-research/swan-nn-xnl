@@ -2315,7 +2315,7 @@
 ! BREaking <                                                                    > &
 !           |    RUEssink [alpha] [a] [b]                                      |
 !           |
-!           |    BKD [alpha] [gamma0] [a1] [a2] [a3]                           |
+!           |    BKD [alpha] [gamma0] [a1] [a2] [a3] [npnts]                   |
 !           |                                                                  |
 !           |    TG [alpha] [gamma] [pown]                                     |
 !
@@ -2356,10 +2356,16 @@
           CALL INREAL ('A1'    , PSURF(5) ,'STA', 7.59)                   41.47
           CALL INREAL ('A2'    , PSURF(6) ,'STA',-8.06)                   41.47
           CALL INREAL ('A3'    , PSURF(7) ,'STA', 8.09)                   41.47
-        ENDIF
+!         [npnts] not documented!
+          CALL INREAL ('NPNTS' , PNUMS(37),'STA', 95. )                   41.96
+!
+          JGAMMA = MCMVAR+1                                               41.96
+          MCMVAR = MCMVAR+1                                               41.96
+          ALOCMP = .TRUE.                                                 41.96
+        END IF
 !
         CALL INKEYW ('STA', '  ')                                         41.47
-        IF (KEYWIS ('DIR')) THEN                                          41.47
+        IF (KEYWIS ('DIR').OR.ISURF.EQ.6) THEN                            41.47
            IDISRF = 1                                                     41.47
            CALL INREAL ('SPREAD', PSURF(15), 'STA', 15.)                  41.47
         END IF                                                            41.47

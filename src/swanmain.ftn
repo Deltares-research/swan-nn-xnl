@@ -839,7 +839,7 @@
 !     40.80: Marcel Zijlema
 !     41.13: Nico Booij
 !     41.62: Andre van der Westhuysen
-!     41.75 : Erick Rogers
+!     41.75: Erick Rogers
 !
 !  1. Updates
 !
@@ -1316,6 +1316,10 @@
       PNUMS(35) = 0.0                                                     41.35
       PNUMS(36) = 0.9                                                     41.35
 !
+!     --- parameter for BKD surf breaking
+!
+      PNUMS(37) = 95.                                                     41.96
+!
 !     *** (1) and (2): Komen et al. (1984) formulation ***
 !
       PWCAP(1)  = 2.36E-5
@@ -1512,8 +1516,8 @@
 !     added for turbulent viscosity                                       40.35
       JTURB2= 1                                                           40.35
       JTURB3= 1                                                           40.35
-      JGAMMA = 1                                                          41.38
-      JRESPL = 1                                                          41.38
+!     added for breaker index                                             41.96
+      JGAMMA= 1                                                           41.38
 !
 !     added for ice input fields                                          41.75
       JAICE2= 1                                                           41.75
@@ -2586,6 +2590,18 @@
       OVULIM(IVTYPE) = 100.
       OVLEXP(IVTYPE) = 0.
       OVHEXP(IVTYPE) = 10.
+      OVEXCV(IVTYPE) = -9.
+!
+      IVTYPE = 82                                                         41.96
+      OVKEYW(IVTYPE) = 'GAMMA'
+      OVSNAM(IVTYPE) = 'Gamma'
+      OVLNAM(IVTYPE) = 'Breaker index'
+      OVUNIT(IVTYPE) = ' '
+      OVSVTY(IVTYPE) = 1
+      OVLLIM(IVTYPE) = 0.
+      OVULIM(IVTYPE) = 1.
+      OVLEXP(IVTYPE) = 0.
+      OVHEXP(IVTYPE) = 1.
       OVEXCV(IVTYPE) = -9.
 !
       IVTYPE = 100                                                        41.62
@@ -5096,11 +5112,8 @@
       COMPDA(:,JUBOT) = 0.                                                40.94
       IF (JPBOT.GT.1) COMPDA(:,JPBOT) = 0.                                40.94
 !
-!     --- initialize GAMBR and RESPL                                      41.38
-      IF (ISURF.EQ.6) THEN
-         COMPDA(:,JGAMMA) = PSURF( 2)
-         COMPDA(:,JRESPL) = PSURF(13)*COMPDA(:,JDP2)
-      ENDIF
+!     --- initialize GAMBR                                                41.96
+      IF (ISURF.EQ.6) COMPDA(:,JGAMMA) = PSURF(2)
 !
       RETURN
 ! * end of subroutine SWRBC *
@@ -6415,6 +6428,19 @@
        END IF
 !
       END IF                                                              30.72
+!
+!     check BKD setting
+!
+      IF (ISURF.EQ.6) THEN
+!        BKD is calibrated with the original LTA setting
+!        (see Salmon et al, 2015)
+         IF (ITRIAD.NE.11 .OR. PTRIAD(1).NE.0.05) THEN
+            CALL MSGERR(1,
+     &                'BKD surf breaking requires original LTA setting')
+            ITRIAD = 11
+            PTRIAD(1) = 0.05
+         ENDIF
+      ENDIF
 !
 !     check parameters for Bragg scattering                               41.80
 !

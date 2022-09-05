@@ -137,7 +137,7 @@ subroutine SwanVTKPDataSets ( upvt, pstype, nvar, ivtyp, mxk, myk, vtkfile, upvd
     vtkline = '    <PPointData> '
     write(upvt,'(a)') trim(vtkline)
     !
-    ! for each output variable determine the file offset and write to file
+    ! for each output variable write its short name to file
     !
     do jvar = 1, nvar
        !

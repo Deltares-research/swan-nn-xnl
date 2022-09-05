@@ -2303,6 +2303,9 @@
 !----------------------------------------------------------------------   40.22
 !$OMP BARRIER                                                             40.22
 !
+!       --- check if breaker index for BKD needs to be modified           41.96
+        IF (MODGAM .AND. ACCUR.GE.PNUMS(37)) MODGAM = .FALSE.             41.96
+!
 !       *** if accuracy has been reached then the iteration ***
 !       *** can be terminated ---> goto 470                 ***
 !
@@ -3415,7 +3418,7 @@
      &                 HM      ,KMESPC  ,SMEBRK  ,KTETA   ,               41.47 40.02
      &                 COMPDA(1,JPBOT)  ,                                 40.51
      &                 COMPDA(1,JBOTLV) ,COMPDA(1,JGAMMA) ,               41.38
-     &                 COMPDA(1,JRESPL) ,SWPDIR           ,               41.38 40.16
+     &                 SWPDIR           ,                                 40.16
      &                 URMSTOP          ,                                 40.88
      &                 IDDLOW           ,IDDTOP           )               41.38
 !TIMG        CALL SWTSTO(116)                                                  40.23
@@ -5353,7 +5356,7 @@
      &                   AC2TOT  ,ETOT    ,                               40.02
      &                   ABRBOT  ,UBOT    ,HS      ,QB      ,             40.02
      &                   HM      ,KMESPC  ,SMEBRK  ,KTETA   ,             41.47 40.02
-     &                   TMBOT   ,BOTLV   ,GAMBR   ,RESPL   ,             41.38 40.51 40.16
+     &                   TMBOT   ,BOTLV   ,GAMBR   ,                      41.38 40.51 40.16
      &                   SWPDIR  ,                                        41.38
      &                   URMSTOP ,                                        40.88
      &                   IDDLOW  ,IDDTOP  )                               41.38
@@ -5407,6 +5410,7 @@
 !     40.41: Marcel Zijlema
 !     40.51: Marcel Zijlema
 !     41.38: James Salmon
+!     41.96: Marcel Zijlema
 !
 !  1. Updates
 !
@@ -5425,6 +5429,7 @@
 !     40.41, Oct. 04: common blocks replaced by modules, include files removed
 !     40.51, Feb. 05: near bottom wave period added
 !     41.38, Apr. 12: extension to nkd scaling
+!     41.96, Aug. 22: store BKD-computed breaker index (e.g. for output)
 !
 !  2. Purpose
 !
@@ -5437,9 +5442,9 @@
 !     ETOT = Integrate [ AC2(theta,sigma) sigma dsigma dtheta ]
 !
 !     To avoid too high dissipation by breaking, ETOT is maximised by a maximum
-!     total energy EMAX based on the maximum wave heigth HM:
+!     total energy EMAX based on the maximum wave height HM:
 !
-!     HM    = PSURF(2) depth
+!     HM    = PSURF(2) * depth
 !
 !                      2
 !     EMAX  = 0.25 * HM
@@ -5503,18 +5508,17 @@
 !     KWAVE : Wavenumber
 !     QB    : Fraction of breaking waves
 !     QB_LOC: Fraction of breaking waves at current grid-point
-!     RESPL : response length
 !     SMEBRK: Mean frequency according to first order moment
 !     SWPDIR: Number of current sweep direction                           40.16
+!     TMBOT : near bottom wave period                                     40.51
 !     UBOT  : Near bottom velocity as function of IX and IY
 !     URSELL: Ursell number as function of IX and IY
-!     TMBOT : near bottom wave period                                     40.51
 
       INTEGER, INTENT(IN)  :: SWPDIR                                      40.16
       INTEGER, INTENT(IN)  :: IDDLOW, IDDTOP                              41.38
 
       REAL, INTENT(IN)     :: DEP2(MCGRD), BOTLV(MCGRD)
-      REAL, INTENT(INOUT)  :: GAMBR(MCGRD), RESPL(MCGRD)                  41.38
+      REAL, INTENT(INOUT)  :: GAMBR(MCGRD)                                41.38
 !     Changed ICMAX to MICMAX, since MICMAX doesn't vary over gridpoint   40.22
       REAL, INTENT(IN)     :: KWAVE(MSC,MICMAX)                           40.22
       REAL, INTENT(IN)     :: RDX(MICMAX), RDY(MICMAX)                    40.08
@@ -5722,17 +5726,31 @@
       ENDIF
 !
 !     --- compute actual maximum wave height based on breaking model
-!         include wave directionality, if appropriate                     41.47
 !
       IF ( ISURF.GT.0 ) THEN
 !        compute some parameters for breaker models
          CALL BRKPAR (BRCOEF, SPCDIR(1,2), SPCDIR(1,3), AC2,
-     &                SIGPOW(:,1), DEP2, BOTLV, GAMBR, RESPL,             41.38
+     &                SIGPOW(:,1), DEP2, BOTLV,
      &                RDX, RDY, KWAVE, IDDLOW, IDDTOP, SPCDIR(1,1),       41.38 41.03 40.22
      &                KTETA )                                             41.47
-         HM = BRCOEF * DEP2(KCGRD(1))                                     40.22
+!
+!        in case of BKD store breaker index                               41.96
+         IF (ISURF.EQ.6) THEN
+            IF (MODGAM) THEN
+               IF (( SWPDIR .EQ. 1) .OR.
+     &             ( SWPDIR .EQ. 2 .AND. IXCGRD(1) .EQ. 1) .OR.
+     &             ( SWPDIR .EQ. 3 .AND. IYCGRD(1) .EQ. 1) .OR.
+     &             ( SWPDIR .EQ. 4 .AND.
+     &               (IXCGRD(1).EQ.MXC .AND. IYCGRD(1).EQ.1) )) THEN
+                  GAMBR(KCGRD(1)) = BRCOEF
+               ENDIF
+            ENDIF
+            HM = GAMBR(KCGRD(1)) * DEP2(KCGRD(1))
+         ELSE
+            HM = BRCOEF * DEP2(KCGRD(1))                                  40.22
+         ENDIF
       ELSE
-!       breaking disabled, assign very high value to HM
+!        breaking disabled, assign very high value to Hmax
          HM = 100.                                                        40.22
       ENDIF
 !

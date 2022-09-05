@@ -2870,8 +2870,8 @@
 !****************************************************************
 !
       SUBROUTINE BRKPAR (BRCOEF  ,ECOS    ,ESIN    ,AC2     ,             40.22
-     &                   SPCSIG  ,DEP2    ,BOTLV   ,GAMBR   ,             41.38 41.03 30.72
-     &                   RESPL   ,RDX     ,RDY     ,KWAVE   ,             41.38 41.03
+     &                   SPCSIG  ,DEP2    ,BOTLV   ,                      41.03 30.72
+     &                   RDX     ,RDY     ,KWAVE   ,                      41.03
      &                   IDDLOW  ,IDDTOP  ,FDIR    ,KTETA   )             41.47 41.38
 !
 !****************************************************************
@@ -2987,8 +2987,6 @@
       REAL, INTENT(IN)  :: ECOS(MDC), ESIN(MDC) ! Cos and Sin of Theta    40.22
       REAL, INTENT(IN)  :: DEP2(MCGRD)          ! depths at grid points   40.22
       REAL, INTENT(IN)  :: BOTLV(MCGRD)         ! bottom depth            41.38
-      REAL, INTENT(INOUT)  :: GAMBR(MCGRD)      ! breaker parameter       41.38
-      REAL, INTENT(INOUT)  :: RESPL(MCGRD)      ! response length         41.38
 !
 !     RDX, RDY:  coefficients to obtain spatial derivatives               40.22
       REAL, INTENT(IN)  :: RDX(MICMAX), RDY(MICMAX)                       40.08

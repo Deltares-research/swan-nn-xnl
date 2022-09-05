@@ -1843,8 +1843,8 @@
 !              set by command READ FR ...
 ! JFRC3  [  1] friction coefficient within array COMPDA
 !              set by command READ FR ...
-! JGAMMA [  1] breaker parameter within array COMPDA,
-!              set by command BREAK NKD ...
+! JGAMMA [  1] breaker index within array COMPDA
+!              used with command BREAK BKD
 ! JGEN0  [   ] within array SWMATR
 ! JGEN1  [   ] within array SWMATR
 ! JGENR  [  1] total generation within array COMPDA
@@ -1909,8 +1909,6 @@
 !              set by command TABLE/BLOCK
 ! JRSXC  [  1] QC scattering within array COMPDA
 !              set by command TABLE/BLOCK
-! JRESPL [  1] response length within array COMPDA,
-!              set by command BREAK NKD ...
 ! JSETUP [  1] setup values within array COMPDA
 ! JSTP   [  5] steepness within array COMPDA
 ! JTAUW  [  1] TauW within array COMPDA,
@@ -1947,7 +1945,7 @@
 ! MCMVAR [ 28] within array COMPDA,
 !              =MCMVAR+2, for command READ FR ... (add JFRC2, JFRC3)
 !              =MCMVAR+4, for command WCAP JANS ... (add JCDRAG, JTAUW, JUSTAR, JZEL)
-!              =MCMVAR+2, for command BREA NKD ... (add JGAMMA, JRESPL)
+!              =MCMVAR+1, for command BREAKING BKD (add JGAMMA)
 !              =MCMVAR+1, for command TABLE/BLOCK TMBOT (add JPBOT)
 !              =MCMVAR+1, for command TABLE/BLOCK DISB (add JDSXB)
 !              =MCMVAR+1, for command TABLE/BLOCK DISSU (add JDSXS)
@@ -1974,7 +1972,7 @@
 ! MTSVAR  [ 15] within array TESTDA
 !
       INTEGER             JABIN,       JABLK,       JAOLD
-      INTEGER             JASTD2,      JASTD3,      JGAMMA,      JRESPL
+      INTEGER             JASTD2,      JASTD3,      JGAMMA
       INTEGER             JCDRAG,      JDHS,        JDIS0
       INTEGER             JDIS1,       JDISS,       JDPSAV,      JDP1
       INTEGER             JDP2
@@ -2320,6 +2318,7 @@
 !                     a nest file
 ! LSPNAR [.fals.] indicates whether directional spread is too narrow or not
 ! LSRFB  [.fals.] indicates whether surfbeat computation should be performed
+! MODGAM [.true.] if true modify breaker index for BKD during iteration process
 ! MXITST [    50] max. number of iterations in stationary computations
 ! MXITNS [     1] max. number of iterations in nonstationary computations
 ! NCOR   [     1] not used
@@ -2460,6 +2459,8 @@
 !                 =0. no limiter
 !                 =1. ctheta will be limited
 !  (36)   [  0.5] =upper limit of CFL restriction for ctheta
+!  (37)   [ 95. ] = required fraction of wet grid points with which modification
+!                   of BKD-computed breaker index stops
 ! PQUAD(MQUAD)    coefficients for quadruplet interaction
 !  ( 1)  [  0.25] lambda in eq. B29 of user manual
 !  ( 2)  [  3.E7] coefficient of interactions
@@ -2709,6 +2710,7 @@
       LOGICAL             LSPNAR
       LOGICAL             LSRFB                                           41.85
       LOGICAL, SAVE ::    RUNMADE = .FALSE.                               41.79
+      LOGICAL, SAVE ::    MODGAM = .TRUE.                                 41.96
 ! parameters for Babanin physics and swell, see Rogers et al (JTECH, 2012)
       REAL                A1SDS, A2SDS, P1SDS, P2SDS, CDSV, FESWELL       40.88
       REAL                RDCOEF, B1Z, WNDSCL, CDFAC                      40.88
