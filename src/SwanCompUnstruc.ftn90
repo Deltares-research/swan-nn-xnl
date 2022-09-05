@@ -979,7 +979,7 @@ subroutine SwanCompUnstruc ( ac2, ac1, compda, spcsig, spcdir, xytst, cross, it 
                       call SINTGRL (spcdir          , kwave           , ac2  , compda(1,JDP2), qbloc , compda(1,JURSEL), &
                                     rdx             , rdy             , dummy, etot          , abrbot, compda(1,JUBOT) , &
                                     hs              , compda(1,JQB)   , hm   , kmespc        , smebrk, kteta           , &
-                                    compda(1,JPBOT) , compda(1,JBOTLV), compda(1,JGAMMA), compda(1,JRESPL)     , swpnr , &
+                                    compda(1,JPBOT) , compda(1,JBOTLV), compda(1,JGAMMA)                       , swpnr , &
                                     urmstop         ,                                                                    &
                                     iddlow          , iddtop          )
 !TIMG                      call SWTSTO(116)

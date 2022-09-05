@@ -2427,7 +2427,7 @@
 !
       IF (OQPROC(8)) THEN
         IF (ITEST.GE.50 .OR. IOUTES .GE. 10) WRITE (PRTEST, 121) 8,
-     &  VOQR(8)
+     &  VOQR(8), JQB
         IF (OPTG.NE.5) THEN                                               40.80
            CALL SWIPOL (COMPDA(1,JQB), OVEXCV(8), XC, YC, MIP, CROSS,     40.86
      &                  VOQ(1,VOQR(8)) ,KGRPNT, COMPDA(1,JDP2))           30.21
@@ -2438,13 +2438,34 @@
         ENDIF                                                             40.80
       ENDIF
 !
+!     breaker index                                                       41.96
+!
+      IF (OQPROC(82)) THEN
+        IF (ITEST.GE.50 .OR. IOUTES .GE. 10) WRITE (PRTEST, 121) 82,
+     &  VOQR(82), JGAMMA
+        IF (JGAMMA.GT.1) THEN
+          IF (OPTG.NE.5) THEN
+             CALL SWIPOL(COMPDA(1,JGAMMA),OVEXCV(82),XC, YC, MIP, CROSS,
+     &                   VOQ(1,VOQR(82)) ,KGRPNT, COMPDA(1,JDP2))
+          ELSE
+             CALL SwanInterpolateOutput ( VOQ(1,VOQR(82)), VOQ(1,1),
+     &                                    VOQ(1,2), COMPDA(1,JGAMMA),
+     &                                    MIP, KVERT, OVEXCV(82) )
+          ENDIF
+        ELSE
+          DO IP = 1, MIP
+            VOQ(IP,VOQR(82)) = PSURF(2)
+          ENDDO
+        ENDIF
+      ENDIF
+!
 !     wind velocity                                                       10.07
 !
       IF (OQPROC(26)) THEN
         JVQX = VOQR(26)
         JVQY = JVQX+1
         IF (ITEST.GE.50 .OR. IOUTES .GE. 10) WRITE (PRTEST, 121) 26,
-     &  VOQR(26)
+     &  VOQR(26), JWX2
         IF (VARWI) THEN
           IF (OPTG.NE.5) THEN                                             40.80
              CALL SWIPOL (COMPDA(1,JWX2), OVEXCV(26),XC, YC, MIP, CROSS,  40.86
@@ -2635,7 +2656,7 @@
 !
       IF (OQPROC(20).AND.OPTG.EQ.5) THEN                                  40.80
         IF (ITEST.GE.50 .OR. IOUTES .GE. 10) WRITE (PRTEST, 121) 20,      40.80
-     &  VOQR(20)                                                          40.80
+     &  VOQR(20), 0                                                       40.80
         CALL SwanInterpolateOutput ( VOQ(1,VOQR(20)), VOQ(1,1),           40.80
      &                               VOQ(1,2), FORCE(1,1),                40.80
      &                               MIP, KVERT, OVEXCV(20) )             40.80
@@ -2648,7 +2669,7 @@
 !
       IF (OQPROC(45)) THEN
         IF (ITEST.GE.50 .OR. IOUTES .GE. 10) WRITE (PRTEST, 121) 45,      40.03
-     &  VOQR(45)
+     &  VOQR(45), JURSEL
         IF (OPTG.NE.5) THEN                                               40.80
            CALL SWIPOL (COMPDA(1,JURSEL), OVEXCV(45),XC, YC, MIP, CROSS,  40.86
      &                  VOQ(1,VOQR(45)) ,KGRPNT, COMPDA(1,JDP2))          40.03
@@ -2685,7 +2706,7 @@
       IF (OQPROC(49)) THEN
         IF (IDIFFR.EQ.1) THEN
           IF (ITEST.GE.50 .OR. IOUTES .GE. 10) WRITE (PRTEST, 121) 49,    40.21
-     &    VOQR(49)
+     &    VOQR(49), 0
           IF (OPTG.NE.5) THEN                                             40.80
              CALL SWIPOL (DIFPARAM(:), OVEXCV(49), XC, YC, MIP, CROSS,    40.86 40.21
      &                    VOQ(1,VOQR(49)) ,KGRPNT, COMPDA(1,JDP2))        40.21
@@ -2713,7 +2734,7 @@
 !
       IF (OQPROC(27)) THEN
          IF (ITEST.GE.50 .OR. IOUTES .GE. 10) WRITE (PRTEST, 121) 27,
-     &   VOQR(27)
+     &   VOQR(27), JFRC2
          IF (VARFR) THEN
             IF (OPTG.NE.5) THEN                                           40.80
 !              interpolation done in all active and non-active points
@@ -2749,7 +2770,7 @@
 !
       IF (OQPROC(51)) THEN                                                40.51
         IF (ITEST.GE.50 .OR. IOUTES .GE. 10) WRITE (PRTEST, 121) 51,
-     &  VOQR(51)
+     &  VOQR(51), JWLV2
         IF (VARWLV) THEN
            IF (OPTG.NE.5) THEN                                            40.80
 !             interpolation done in all active and non-active points
@@ -2842,9 +2863,9 @@
             RVAL1 = FLOAT(IX)
             RVAL2 = FLOAT(IY)
             IF ( .NOT.( CVTK .OR. EQREAL(XC(IP),RVAL1) ) .OR.
-     &                EQREAL(XC(IP),0.)) IX = IX + 1
+     &           EQREAL(XC(IP),0.)) IX = IX + 1
             IF ( .NOT.( CVTK .OR. EQREAL(YC(IP),RVAL2) ) .OR.
-     &                EQREAL(YC(IP),0.)) IY = IY + 1
+     &           EQREAL(YC(IP),0.)) IY = IY + 1
             IF ( IX.GE.IXB .AND. IX.LE.IXE .AND.                          40.31
      &           IY.GE.IYB .AND. IY.LE.IYE ) IONOD(IP) = INODE            40.31
          END DO                                                           40.31
