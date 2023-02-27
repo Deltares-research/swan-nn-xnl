@@ -2,7 +2,7 @@
 
 SWAN is a third-generation wave model that computes random, short-crested wind-generated waves in coastal regions and inland waters.
 For more in-depth background and scientific documentation, the reader is referred to the [SWAN website](https://swanmodel.sourceforge.io).
-Please also check the [release notes](https://swanmodel.sourceforge.io/modifications/modifications.htm) for any additional information on the current version **41.41**.
+Please also check the [release notes](https://swanmodel.sourceforge.io/modifications/modifications.htm) for any additional information on the current version **41.45**.
 
 This Readme provides a brief overview of software installation and configuration instructions for users and developers.
 Please see the [Implementation Manual](https://swanmodel.sourceforge.io/online_doc/swanimp/swanimp.html) for additional documentation.
@@ -242,11 +242,12 @@ For more details, consult the [Implementation manual](https://swanmodel.sourcefo
 See
 1. the [Implementation Manual](https://swanmodel.sourceforge.io/online_doc/swanimp/swanimp.html) that describes in detail the installation and the usage of the SWAN model
 1. the [User Manual](https://swanmodel.sourceforge.io/online_doc/swanuse/swanuse.html) that provides the specifications for the input of the SWAN model
+1. the [SWAN settings](https://swanmodel.sourceforge.io/settings/settings.htm) page for an overview of the source term packages
 1. the [Scientific/technical documentation](https://swanmodel.sourceforge.io/online_doc/swantech/swantech.html) that discusses the physical and mathematical details and the discretizations that have been implemented in the SWAN software
 
 ## bugs and questions
 
-For bug reports please use the [GitLab issue tracker](https://gitlab.tudelft.nl/citg/wavemodels/swan/issues).
+For bug reports please send to the [SourceForge mailing list](http://sourceforge.net/mail/?group_id=384349).
 
 
-<small>&copy; Copyright 2022  Marcel Zijlema</small>
+<small>&copy; Copyright 2023  Marcel Zijlema</small>
