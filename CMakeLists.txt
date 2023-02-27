@@ -1,6 +1,6 @@
 # a CMake script to build SWAN
 #
-# Copyright (C) 2022  Delft University of Technology
+# Copyright (C) 2023  Delft University of Technology
 
 # use of CMake version 3.12 or greater
 cmake_minimum_required( VERSION 3.12 )
@@ -16,7 +16,7 @@ endif()
 project( SWAN Fortran )
 
 # set the SWAN version
-set( VERSION 41.41 )
+set( VERSION 41.45 )
 
 # enable common build
 set( CMAKE_BUILD_TYPE None CACHE STRING "" FORCE )
