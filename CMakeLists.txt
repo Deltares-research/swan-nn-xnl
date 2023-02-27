@@ -31,7 +31,7 @@ else()
 endif()
 
 # set the Fortran77 extension
-if ( WIN32 )
+if( WIN32 )
    set( EXTF for )
 else()
    set( EXTF f   )

@@ -47,7 +47,7 @@
 !
 !
 !     SWAN (Simulating WAves Nearshore); a third generation wave model
-!     Copyright (C) 1993-2022  Delft University of Technology
+!     Copyright (C) 1993-2023  Delft University of Technology
 !
 !     This program is free software: you can redistribute it and/or modify
 !     it under the terms of the GNU General Public License as published by
@@ -550,7 +550,7 @@
 !
 !
 !     SWAN (Simulating WAves Nearshore); a third generation wave model
-!     Copyright (C) 1993-2022  Delft University of Technology
+!     Copyright (C) 1993-2023  Delft University of Technology
 !
 !     This program is free software: you can redistribute it and/or modify
 !     it under the terms of the GNU General Public License as published by
@@ -906,7 +906,7 @@
 !
 !
 !     SWAN (Simulating WAves Nearshore); a third generation wave model
-!     Copyright (C) 1993-2022  Delft University of Technology
+!     Copyright (C) 1993-2023  Delft University of Technology
 !
 !     This program is free software: you can redistribute it and/or modify
 !     it under the terms of the GNU General Public License as published by
@@ -1173,7 +1173,7 @@
 !
 !
 !     SWAN (Simulating WAves Nearshore); a third generation wave model
-!     Copyright (C) 1993-2022  Delft University of Technology
+!     Copyright (C) 1993-2023  Delft University of Technology
 !
 !     This program is free software: you can redistribute it and/or modify
 !     it under the terms of the GNU General Public License as published by
@@ -1497,7 +1497,7 @@
 !
 !
 !     SWAN (Simulating WAves Nearshore); a third generation wave model
-!     Copyright (C) 1993-2022  Delft University of Technology
+!     Copyright (C) 1993-2023  Delft University of Technology
 !
 !     This program is free software: you can redistribute it and/or modify
 !     it under the terms of the GNU General Public License as published by
@@ -1981,7 +1981,7 @@
       IVTYPE=76
       JCOMPDA=JDSXI ! give J-name here, JDSXI/JAICE2/JHICE2
 !     begin block of code that is identical for all new variables
-      IF (OQPROC(IVTYPE)) THEN                                                41.75
+      IF (OQPROC(IVTYPE)) THEN                                            41.75
         IF (ITEST.GE.50 .OR. IOUTES .GE. 10) WRITE (PRTEST, 121) IVTYPE,
      &  VOQR(IVTYPE), JCOMPDA
         IF (JCOMPDA.GT.1) THEN
@@ -2008,7 +2008,7 @@
       IVTYPE=77
       JCOMPDA=JAICE2 ! give J-name here, JDSXI/JAICE2/JHICE2
 !     note special use of VARAICE and PICE
-      IF (OQPROC(IVTYPE)) THEN                                                41.75
+      IF (OQPROC(IVTYPE)) THEN                                            41.75
         IF (ITEST.GE.50 .OR. IOUTES .GE. 10) WRITE (PRTEST, 121) IVTYPE,
      &  VOQR(IVTYPE), JCOMPDA
         IF (VARAICE) THEN
@@ -2036,7 +2036,7 @@
       IVTYPE=78
       JCOMPDA=JHICE2 ! give J-name here, JDSXI/JAICE2/JHICE2
 !     note special use of PICE
-      IF (OQPROC(IVTYPE)) THEN                                                41.75
+      IF (OQPROC(IVTYPE)) THEN                                            41.75
         IF (ITEST.GE.50 .OR. IOUTES .GE. 10) WRITE (PRTEST, 121) IVTYPE,
      &  VOQR(IVTYPE), JCOMPDA
         IF (JCOMPDA.GT.1) THEN
@@ -2680,6 +2680,25 @@
         ENDIF                                                             40.80
       ENDIF
 !
+!     biphase
+!
+      IF (OQPROC(83)) THEN                                                41.97
+        IF (ITEST.GE.50 .OR. IOUTES .GE. 10) WRITE (PRTEST, 121) 83,
+     &  VOQR(83), JBIPH
+        IF (OPTG.NE.5) THEN
+           CALL SWIPOL (COMPDA(1,JBIPH), OVEXCV(83),XC, YC, MIP, CROSS,
+     &                  VOQ(1,VOQR(83)) ,KGRPNT, COMPDA(1,JDP2))
+        ELSE
+           CALL SwanInterpolateOutput ( VOQ(1,VOQR(83)), VOQ(1,1),
+     &                                  VOQ(1,2), COMPDA(1,JBIPH),
+     &                                  MIP, KVERT, OVEXCV(83) )
+        ENDIF
+        DO IP = 1, MIP
+           F1 = VOQ(IP,VOQR(83))
+           IF (.NOT.EQREAL(F1,OVEXCV(83))) VOQ(IP,VOQR(83))=F1*180./PI
+        ENDDO
+      ENDIF
+!
 !     Air-Sea temperature difference
 !
       IF (OQPROC(46)) THEN
@@ -2898,7 +2917,7 @@
 !
 !
 !     SWAN (Simulating WAves Nearshore); a third generation wave model
-!     Copyright (C) 1993-2022  Delft University of Technology
+!     Copyright (C) 1993-2023  Delft University of Technology
 !
 !     This program is free software: you can redistribute it and/or modify
 !     it under the terms of the GNU General Public License as published by
@@ -3163,7 +3182,7 @@
 !
 !
 !     SWAN (Simulating WAves Nearshore); a third generation wave model
-!     Copyright (C) 1993-2022  Delft University of Technology
+!     Copyright (C) 1993-2023  Delft University of Technology
 !
 !     This program is free software: you can redistribute it and/or modify
 !     it under the terms of the GNU General Public License as published by
@@ -4896,7 +4915,7 @@
 !
 !
 !     SWAN (Simulating WAves Nearshore); a third generation wave model
-!     Copyright (C) 1993-2022  Delft University of Technology
+!     Copyright (C) 1993-2023  Delft University of Technology
 !
 !     This program is free software: you can redistribute it and/or modify
 !     it under the terms of the GNU General Public License as published by
@@ -5114,7 +5133,7 @@
 !
 !
 !     SWAN (Simulating WAves Nearshore); a third generation wave model
-!     Copyright (C) 1993-2022  Delft University of Technology
+!     Copyright (C) 1993-2023  Delft University of Technology
 !
 !     This program is free software: you can redistribute it and/or modify
 !     it under the terms of the GNU General Public License as published by
