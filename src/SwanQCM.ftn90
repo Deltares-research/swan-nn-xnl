@@ -331,12 +331,12 @@ subroutine SWQCINIT ( BGRIDP, COMPDA )
        enddo
        !
     endif
-!MPI    !
-!MPI    ! perform global reductions in parallel run
-!MPI    call SWREDUCE( kmean, 1, SWREAL, SWMAX )
-!MPI    call SWREDUCE( sdev , 1, SWREAL, SWMIN )
-!MPI    call SWREDUCE( hsi  , 1, SWREAL, SWMAX )
-!MPI    if ( stpnow() ) return
+    !
+    ! perform global reductions in parallel run
+    call SWREDUCE( kmean, 1, SWREAL, SWMAX )
+    call SWREDUCE( sdev , 1, SWREAL, SWMIN )
+    call SWREDUCE( hsi  , 1, SWREAL, SWMAX )
+    if ( stpnow() ) return
     !
     if ( sdev /= 9999. ) then
        if ( ITEST >= 50 ) write (PRTEST,'(a,f8.5)') ' standard deviation of incoming spectra (1/m) = ', sdev
@@ -379,11 +379,11 @@ subroutine SWQCINIT ( BGRIDP, COMPDA )
           endif
           !
        enddo
-!MPI       !
-!MPI       ! perform global reductions in parallel run
-!MPI       call SWREDUCE( hmin, 1, SWREAL, SWMIN )
-!MPI       call SWREDUCE( hmax, 1, SWREAL, SWMAX )
-!MPI       if ( stpnow() ) return
+       !
+       ! perform global reductions in parallel run
+       call SWREDUCE( hmin, 1, SWREAL, SWMIN )
+       call SWREDUCE( hmax, 1, SWREAL, SWMAX )
+       if ( stpnow() ) return
        !
        ! next, compute minimum and maximum absolute wave numbers ...
        !
@@ -2893,7 +2893,15 @@ subroutine SWQCSURF ( memqcb, ac2, dep2, cfd, wfd, wsavd, kwave, cgo, spcdir, sp
              !
              y = yp + 0.5 * ypd(iyd)
              !
-             call SwanInterpolatePoint( dpos(iyd,ixd), x, y, disbk0, 0. )
+             if ( x < XCGMIN .or. x > XCGMAX .or. y < YCGMIN .or. y > YCGMAX ) then
+                !
+                dpos(iyd,ixd) = 0.
+                !
+             else
+                !
+                call SwanInterpolatePoint( dpos(iyd,ixd), x, y, disbk0, 0. )
+                !
+             endif
              !
           enddo
           !
@@ -3067,7 +3075,15 @@ subroutine SWQCSURF ( memqcb, ac2, dep2, cfd, wfd, wsavd, kwave, cgo, spcdir, sp
              !
              y = yp - 0.5 * ypd(iyd)
              !
-             call SwanInterpolatePoint( dneg(iyd,ixd), x, y, disbk0, 0. )
+             if ( x < XCGMIN .or. x > XCGMAX .or. y < YCGMIN .or. y > YCGMAX ) then
+                !
+                dneg(iyd,ixd) = 0.
+                !
+             else
+                !
+                call SwanInterpolatePoint( dneg(iyd,ixd), x, y, disbk0, 0. )
+                !
+             endif
              !
           enddo
           !

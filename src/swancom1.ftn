@@ -2068,10 +2068,7 @@
  410    CONTINUE
 !WFR!MPI!
 !WFR!MPI!       --- exchange action densities at subdomain interfaces             40.31
-!WFR!MPI!           within distributed-memory environment if S&L scheme           40.31
-!WFR!MPI!           is employed because of one downwind point present             40.31
 !WFR!MPI!
-!WFR!MPI        IF (PROPSC.EQ.3) THEN                                             40.31
 !WFR!TIMG!MPI           CALL SWTSTA(213)                                               40.31
 !WFR!MPI           DO ID = 1, MDC                                                 40.31
 !WFR!MPI              DO IS = 1, MSC                                              40.31
@@ -2082,7 +2079,6 @@
 !WFR!MPI           END DO                                                         40.31
 !WFR!TIMG!MPI           CALL SWTSTO(213)                                               40.31
 !WFR!MPI           IF (STPNOW()) RETURN                                           40.31
-!WFR!MPI        END IF                                                            40.31
 
 !----------------------------------------------------------------------   40.31
 !     Each thread sum contributions to the global INOCNV counter          40.31
@@ -3481,8 +3477,8 @@
      &                    COMPDA(1,JHS), LINK, OBREDF,                    40.09
      &                    AC2, REFLSO, KGRPNT, XCGRID,                    40.41 40.09
      &                    YCGRID, CAX, CAY, RDX, RDY, LSWMAT(1,1,JABIN),  40.02
-     &                    SPCSIG, SPCDIR,                                 40.13 40.28
-     &                    CGO, KWAVE, COMPDA(1,JHSS2), COMPDA(1,JTSS2))   41.82
+     &                    SPCSIG, SPCDIR, CGO, KWAVE,                     42.06 40.13 40.28
+     &                COMPDA(1,JHSS2), COMPDA(1,JTSS2), COMPDA(1,JDSS2))  42.06 41.82
           ENDIF
 !
         ENDIF

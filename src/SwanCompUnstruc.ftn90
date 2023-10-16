@@ -48,7 +48,7 @@ subroutine SwanCompUnstruc ( ac2, ac1, compda, spcsig, spcdir, xytst, cross, it 
 !
 !   40.80,     July 2007: New subroutine
 !   40.85,   August 2008: add propagation, generation and redistribution terms for output purposes
-!   40.95,     June 2008: parallelization of unSWAN using MESSENGER of ADCIRC
+!   40.95,     June 2008: parallelization of unSWAN
 !   41.02, February 2009: implementation of diffraction
 !   41.07,   August 2009: bug fix: never-ending sweep is prevented
 !   41.10,   August 2009: parallelization using OpenMP directives
@@ -94,6 +94,7 @@ subroutine SwanCompUnstruc ( ac2, ac1, compda, spcsig, spcdir, xytst, cross, it 
     use SwanCompdata
     use SwanQCM
     use m_parall
+!METIS    use SwanParallel
 !
     implicit none
 !
@@ -267,6 +268,7 @@ subroutine SwanCompUnstruc ( ac2, ac1, compda, spcsig, spcdir, xytst, cross, it 
     real, dimension(:,:), allocatable     :: sfnl      ! total interaction contribution of quadruplets to the right-hand side
     real, dimension(:,:,:), allocatable   :: sigft     ! Fourier-transformed modulation of intrinsic frequency
     real, dimension(:,:,:,:), allocatable :: swtsda    ! several source terms computed at test points
+    real, dimension(:), allocatable       :: temp      ! temporary array to store data for MPI communication
     real, dimension(:), allocatable       :: tmcurr    ! mean period at current iteration level
     real, dimension(:), allocatable       :: tmdifc    ! difference in mean period of current and one before previous iteration
     real, dimension(:), allocatable       :: tmprev    ! mean period at previous iteration level
@@ -355,6 +357,7 @@ subroutine SwanCompUnstruc ( ac2, ac1, compda, spcsig, spcdir, xytst, cross, it 
     allocate(tmcurr(nverts))
     allocate(tmprev(nverts))
     allocate(tmdifc(nverts))
+    allocate(temp  (nverts))
     !
     allocate(swtsda(MDC,MSC,NPTSTA,MTSVAR))
     !
@@ -1046,7 +1049,7 @@ subroutine SwanCompUnstruc ( ac2, ac1, compda, spcsig, spcdir, xytst, cross, it 
                             !
                             call SWTRCF ( compda(1,JDP2), compda(1,JWLV2), compda(1,JHS)  , link, obredf    , ac2, reflso, dummy ,         &
                                           dummy         , dummy          , cax            , cay , rdx       , rdy, anybin, spcsig, spcdir, &
-                                          cgo           , kwave          , compda(1,JHSS2), compda(1,JTSS2) )
+                                          cgo           , kwave          , compda(1,JHSS2), compda(1,JTSS2) , compda(1,JDSS2) )
                             !
                          endif
                          !
@@ -1303,6 +1306,20 @@ subroutine SwanCompUnstruc ( ac2, ac1, compda, spcsig, spcdir, xytst, cross, it 
        ! synchronize threads before checking stop criterion
        !$omp barrier
        !
+       ! exchange action densities with neighbours in parallel run
+       !
+       if ( ACUPDA .and. PARLL ) then
+!TIMG          call SWTSTA(213)
+          do id = 1, MDC
+             do is = 1, MSC
+                temp(:) = ac2(id,is,:)
+!METIS                call SwanUvExchgR ( temp )
+                ac2(id,is,:) = temp(:)
+             enddo
+          enddo
+!TIMG          call SWTSTO(213)
+       endif
+       !
        ! store the source terms assembled in test points per iteration in the files IFPAR, IFS1D and IFS2D
        !
        !$omp master
@@ -1330,9 +1347,15 @@ subroutine SwanCompUnstruc ( ac2, ac1, compda, spcsig, spcdir, xytst, cross, it 
           do ivert = 1, nverts
              if ( vert(ivert)%active ) nwetp = nwetp +1.
           enddo
+          call SWREDUCE( nwetp, 1, SWREAL, SWSUM )
           !
           mxnfr = maxval(nrscal)
           npfr  = count(mask=nrscal>0)
+          !
+          ! perform global reductions in parallel run
+          !
+          call SWREDUCE( npfr , 1, SWINT, SWSUM )
+          call SWREDUCE( mxnfr, 1, SWINT, SWMAX )
           !
           frac = real(npfr)*100./nwetp
           if ( npfr > 0 ) write (PRINTF,130) 'rescaling', frac, mxnfr
@@ -1349,15 +1372,23 @@ subroutine SwanCompUnstruc ( ac2, ac1, compda, spcsig, spcdir, xytst, cross, it 
           do ivert = 1, nverts
              if ( vert(ivert)%active ) nwetp = nwetp +1.
           enddo
+          call SWREDUCE( nwetp, 1, SWREAL, SWSUM )
           !
           mxnfl = maxval(nflim)
           npfl  = count(mask=nflim>0)
+          !
+          ! perform global reductions in parallel run
+          !
+          call SWREDUCE( npfl , 1, SWINT, SWSUM )
+          call SWREDUCE( mxnfl, 1, SWINT, SWMAX )
           !
           frac = real(npfl)*100./nwetp
           if ( npfl > 0 ) write (PRINTF,130) 'limiter', frac, mxnfl
           if ( NSTATC == 0 .and. npfl > 0 .and. IAMMASTER ) write (SCREEN,130) 'limiter', frac, mxnfl
           !
           mnisl = minval(islmin)
+          !
+          call SWREDUCE( mnisl, 1, SWINT, SWMIN )
           !
           if ( npfl > 0 ) write (PRINTF,135) spcsig(mnisl)/PI2
           if ( NSTATC == 0 .and. npfl > 0 .and. IAMMASTER ) write (SCREEN,135) spcsig(mnisl)/PI2
@@ -1368,6 +1399,7 @@ subroutine SwanCompUnstruc ( ac2, ac1, compda, spcsig, spcdir, xytst, cross, it 
        ! (only for debug purposes)
        !
        if ( ITEST >= 30 .or. idebug == 1 ) then
+          call SWREDUCE( inocnv , 1, SWINT, SWSUM )
           if ( (DYNDEP .or. ICUR /= 0) .and. inocnv /= 0 ) then
              write (PRINTF,136) inocnv
           endif
@@ -1377,10 +1409,23 @@ subroutine SwanCompUnstruc ( ac2, ac1, compda, spcsig, spcdir, xytst, cross, it 
        ! synchronize threads
        !$omp barrier
        !
+       ! exchange array COMPDA with neighbours in parallel run
+       !
+       if ( PARLL ) then
+!TIMG          call SWTSTA(213)
+          do j = 1, MCMVAR
+             temp(:) = compda(:,j)
+!METIS             call SwanUvExchgR ( temp )
+             compda(:,j) = temp(:)
+          enddo
+!TIMG          call SWTSTO(213)
+       endif
+       !
        ! store QC bulk dissipation to previous iteration
        !
        if ( ISURF > 0 .and. IGEN == 4 ) then
           disbk0 = disbk1
+!METIS          if ( PARLL ) call SwanUvExchgR ( disbk0 )
        endif
        !
        ! info regarding the iteration process and the accuracy
@@ -1558,6 +1603,7 @@ subroutine SwanCompUnstruc ( ac2, ac1, compda, spcsig, spcdir, xytst, cross, it 
     deallocate(tmcurr)
     deallocate(tmprev)
     deallocate(tmdifc)
+    deallocate(temp  )
     !
     deallocate(swtsda)
     !
@@ -1578,7 +1624,7 @@ subroutine SwanCompUnstruc ( ac2, ac1, compda, spcsig, spcdir, xytst, cross, it 
  105 format (' ISURF ',i4,'    IBOT  ',i4   ,'            ITRIAD ',i4)
  106 format (' IVEG  ',i4,'    ITURBV',i4   ,'            IMUD   ',i4/   &
              ' IICE  ',i4,'    IBRAG ',i4   )
- 107 format (' Test points :',2i5)
+ 107 format (' Test points :',2i7)
  108 format (' Number of active points = ',i6,' (fillings-degree: ',f6.2,' %)')
  110 format ('+time ', a18, ', step ',i6, '; iteration ',i4)
  120 format (' iteration ', i4)

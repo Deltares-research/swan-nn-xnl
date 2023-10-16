@@ -13,7 +13,6 @@
       USE OCPCOMM3                                                        40.41
       USE OCPCOMM4                                                        40.41
       USE M_PARALL                                                        40.31
-
 !
 !
 !   --|-----------------------------------------------------------|--
@@ -71,7 +70,7 @@
 !     40.31, Nov. 03: removing HPGL-functionality
 !     40.41, Sep. 04: includes speed processors in initialisation file
 !     40.41, Oct. 04: common blocks replaced by modules, include files removed
-!     40.95, Jun. 08: parallelization of unSWAN using MESSENGER of ADCIRC
+!     40.95, Jun. 08: parallelization of unSWAN
 !
 !  2. Purpose
 !
@@ -227,7 +226,6 @@
          CALL SWSYNC
          IF (STPNOW()) RETURN
       END IF
-
 
       IF (INIVEF.LT.INIVER) THEN
 !

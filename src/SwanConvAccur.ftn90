@@ -46,6 +46,7 @@ subroutine SwanConvAccur ( accur, hscurr, tmcurr, delhs, deltm, xytst, spcsig, a
     use ocpcomm4
     use swcomm3
     use swcomm4
+    use m_parall
     use SwanGriddata
     use SwanGridobjects
 !
@@ -156,6 +157,12 @@ subroutine SwanConvAccur ( accur, hscurr, tmcurr, delhs, deltm, xytst, spcsig, a
     !$omp atomic
     tmmean = tmmean + tmmeant
     !
+    ! perform global reductions in parallel run
+    !
+    call SWREDUCE(  nwetp, 1, SWREAL, SWSUM )
+    call SWREDUCE( hsmean, 1, SWREAL, SWSUM )
+    call SWREDUCE( tmmean, 1, SWREAL, SWSUM )
+    !
     !$omp barrier
     !$omp single
     hsmean = hsmean/nwetp
@@ -247,6 +254,10 @@ subroutine SwanConvAccur ( accur, hscurr, tmcurr, delhs, deltm, xytst, spcsig, a
     !
     !$omp atomic
     npacc = npacc + npacct
+    !
+    ! perform global reduction in parallel run
+    !
+    call SWREDUCE( npacc, 1, SWREAL, SWSUM )
     !
     ! compute percentage of active vertices where required accuracy has been reached
     !
