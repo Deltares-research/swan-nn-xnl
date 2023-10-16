@@ -851,6 +851,7 @@
 !     IGTYP   : FIG type: FIG source term or not
 !     NCRPTS  : number of corner points in obstacle
 !     NEXTOBST: pointer to next obstacle in list
+!     OBSTDONE: check handling obstacles done or not
 !     RFCOEF  : reflection coefficients
 !     RFTYP1  : reflection type: standard (REFL)
 !     RFTYP2  : reflection type: diffusive/specular (RDIFF/RSPEC)
@@ -862,6 +863,8 @@
 !     XCRP    : x-coordinate of corner point
 !     YCRP    : y-coordinate of corner point
 
+      LOGICAL, SAVE             :: OBSTDONE
+!
       TYPE OBSTDAT
          INTEGER                :: TRTYPE
          REAL                   :: TRCOEF(3)
@@ -871,7 +874,7 @@
          INTEGER                :: FBTYP1, FBTYP2
          REAL                   :: FBCOEF(3)
          INTEGER                :: IGTYP
-         REAL                   :: IGCOEF(3)
+         REAL                   :: IGCOEF(5)
          REAL, POINTER          :: IGFRQD(:)
          INTEGER                :: NCRPTS
          REAL, POINTER          :: XCRP(:), YCRP(:)
@@ -964,7 +967,7 @@
 !     NPLAF, TURBF
 !     MUDLF
 !     AICEF, HICEF
-!     HSSF, TSSF
+!     HSSF, TSSF, DSSF
 !
 !  4. Modules used
 !
@@ -986,6 +989,7 @@
 !     AICEF : input field containing ice concentration (fraction)
 !     ASTDF : input field of air-sea temperature difference
 !     DEPTH : input field of depth
+!     DSSF  : input field containing sea-swell mean wave direction
 !     FRIC  : input field of friction
 !     HICEF : input field containing ice thickness (meters)
 !     HSSF  : input field containing sea-swell sig wave height
@@ -1030,7 +1034,7 @@
       REAL   , SAVE, ALLOCATABLE :: AICEF(:) , HICEF(:)
       REAL   , SAVE, ALLOCATABLE :: LAYH(:), VEGDIL(:), VEGDRL(:),
      &                              VEGNSL(:)
-      REAL   , SAVE, ALLOCATABLE :: HSSF(:)  , TSSF(:)
+      REAL   , SAVE, ALLOCATABLE :: HSSF(:)  , TSSF(:), DSSF(:)
 !ESMF!
 !ESMF!     added to save Sin exponential growth term for coupling
 !ESMF      LOGICAL, SAVE :: SAVE_SINBAC

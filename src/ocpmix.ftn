@@ -541,7 +541,7 @@
 !*****************************************************************
 !                                                                *
       SUBROUTINE REPARM (NDSL, NDSD, IDLA, IDFM, RFORM,                   40.00
-     &                   NHEDF, IDYN, NHEDT, LOGC, LOCAL, NHEDC)          40.95 40.00
+     &                   NHEDF, IDYN, NHEDT, LOGC, NHEDC)                 40.00
 !                                                                *
 !*****************************************************************
 !
@@ -625,10 +625,9 @@
 !
       INTEGER   IDFM, IDLA,  NDSL, NDSD, NHEDF, NHEDT, NHEDC, IDYN
 !
-!     LOCAL  : input    if True input file found in local directory
 !     LOGC   : input    if True more than one component is read from file
 !
-      LOGICAL   LOGC, LOCAL
+      LOGICAL   LOGC
 !
 !     RFORM  : output   reading format
 !

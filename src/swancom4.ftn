@@ -5685,7 +5685,7 @@
       REAL    :: DXA, DYA, DEPLOC, EMAX, ET, KW, LW
       REAL    :: SIGMA(1), KWAVE(1), ARR(1)
       REAL    :: LPAR, BETA
-!MPI      LOGICAL :: STPNOW
+      LOGICAL :: STPNOW
 !
 ! 13. Source text
 !
@@ -5731,10 +5731,10 @@
                ENDIF
             ENDDO
          ENDDO
-!MPI         ! perform global reductions in parallel run
-!MPI         CALL SWREDUCE( K , 1, SWINT , SWSUM )
-!MPI         CALL SWREDUCE( KW, 1, SWREAL, SWSUM )
-!MPI         IF ( STPNOW() ) RETURN
+         ! perform global reductions in parallel run
+         CALL SWREDUCE( K , 1, SWINT , SWSUM )
+         CALL SWREDUCE( KW, 1, SWREAL, SWSUM )
+         IF ( STPNOW() ) RETURN
       ENDIF
       IF (K.GE.1) THEN
          KW = KW / FLOAT(K)

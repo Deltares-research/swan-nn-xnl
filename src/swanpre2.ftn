@@ -3718,6 +3718,7 @@
       USE SWCOMM3                                                         40.41
       USE SWCOMM4                                                         40.41
       USE M_BNDSPEC                                                       40.31
+      USE M_PARALL                                                        42.10
 !
       IMPLICIT NONE
 !
@@ -3992,8 +3993,9 @@
             ENDIF
           ENDDO
 !
-          IF ((BCTYPE .EQ. 'NEST').AND. (IIPT2.EQ.0)) CALL MSGERR (2,
-     &      'no grid points on nested boundary')                          40.05
+          CALL SWREDUCE ( IIPT2, 1, SWINT, SWMAX )                        42.10
+          IF ((BCTYPE.EQ.'NEST') .AND. (IIPT2.EQ.0) .AND. IAMMASTER)      42.10
+     &       CALL MSGERR (2,'no grid points on nested boundary')          40.05
 !
           NHEDF = NHEDF + 2 + NBOUNC
           IF (ITEST.GE.60) WRITE (PRTEST,16) NBOUNC
@@ -5487,7 +5489,8 @@
            IF (OPTG.EQ.5) THEN                                            40.80
              DO IXP = 1, nverts                                           40.80
                IF ( vert(IXP)%atti(VMARKER) == 1 .AND.                    40.80
-     &              vert(IXP)%atti(VBC) == 0 ) THEN                       40.80
+     &              vert(IXP)%atti(VBC) == 0     .AND.                    40.80
+     &              vmark(IXP) /= 999 ) THEN                              42.10
                  XP = vert(IXP)%attr(VERTX)                               41.14
                  YP = vert(IXP)%attr(VERTY)                               41.14
 !
@@ -5834,7 +5837,6 @@
 !                                                                    *
 !*********************************************************************
 !
-      USE OCPCOMM2                                                        40.95
       USE OCPCOMM4                                                        40.41
       USE SWCOMM1                                                         40.41
       USE SWCOMM2                                                         40.41

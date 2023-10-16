@@ -57,6 +57,7 @@ subroutine SwanVertlist ( compda )
     use swcomm2, only: COSWC, SINWC, VARWI
     use swcomm3, only: MCMVAR, JWX2, JWY2, JWX3, JWY3
     use m_genarr
+    use m_parall
     use SwanGriddata
     use SwanGridobjects
     use SwanCompdata
@@ -130,6 +131,8 @@ subroutine SwanVertlist ( compda )
              endif
           enddo
           asort = wdsum / real(k)
+          call SWREDUCE( asort, 1, SWREAL, SWSUM )
+          asort = asort / real(NPROC)
        else
 !         final attempt: set sweep direction to zero
           asort = 0.

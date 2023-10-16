@@ -30,13 +30,11 @@ subroutine SwanReadADCGrid
 !   Authors
 !
 !   40.80: Marcel Zijlema
-!   40.95: Marcel Zijlema
 !   41.07: Casey Dietrich
 !
 !   Updates
 !
 !   40.80, December 2007: New subroutine
-!   40.95,     June 2008: parallelization of unSWAN using MESSENGER of ADCIRC
 !   41.07,   August 2009: use ADCIRC boundary info to mark all boundary vertices
 !
 !   Purpose
@@ -148,8 +146,8 @@ subroutine SwanReadADCGrid
     read(ndsd, *, end=950, err=910) nopbc
     read(ndsd, *, end=950, err=910) idum
     do j = 1, nopbc
-          vm = j
-          read(ndsd, *, end=950, err=910) n2
+       vm = j
+       read(ndsd, *, end=950, err=910) n2
        do k = 1, n2
            read(ndsd, *, end=950, err=910) ivert
            vmark(ivert) = vm
@@ -159,8 +157,8 @@ subroutine SwanReadADCGrid
     read(ndsd, *, end=950, err=910) n1
     read(ndsd, *, end=950, err=910) idum
     do j = 1, n1
-          vm = nopbc + j
-          read(ndsd, *, end=950, err=910) n2, itype
+       vm = nopbc + j
+       read(ndsd, *, end=950, err=910) n2, itype
        if ( itype /= 4 .and. itype /= 24 ) then
           do k = 1, n2
              read(ndsd, *, end=950, err=910) ivert

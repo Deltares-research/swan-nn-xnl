@@ -38,7 +38,7 @@ Popular Fortran compilers are [gfortran](https://gcc.gnu.org/fortran/) and
 Please check this [page](https://fortran-lang.org/learn/os_setup/install_gfortran) for the installation of gfortran on your platform.
 
 Due to the use of ANSI standard Fortran90 the SWAN source code can be ported to various architectures (e.g., Windows, Linux, macOS and Unix-like systems).
-Currently, the build scripts supports the following Fortran compilers:
+Currently, the build scripts support the following Fortran compilers:
 
 1. GNU
 1. Intel<sup>&reg;</sup>
@@ -145,6 +145,7 @@ where `<value>` is a string or a boolean, depending on the specified option. The
 | `CMAKE_Fortran_COMPILER` | string     | full path to the Fortran compiler         | determined by CMake     |
 | `MPI`                    | boolean    | enable build with MPI                     | `OFF`                   |
 | `OPENMP`                 | boolean    | enable build with OpenMP                  | `OFF`                   |
+| `METIS`                  | boolean    | enable build with Metis                   | `OFF`                   |
 | `NETCDF`                 | boolean    | enable build with netCDF                  | `OFF`                   |
 | `CMAKE_VERBOSE_MAKEFILE` | boolean    | provide verbose output of the build       | `OFF`                   |
 
@@ -169,7 +170,19 @@ or
 $ cmake .. [options] -DCMAKE_PREFIX_PATH=/path/to/netcdf/directory
 ```
 
-so that CMake can find them.
+so that CMake can find them. The same holds for Metis libraries, as follows:
+
+```bash
+$ export Metis_ROOT=/path/to/metis/root/directory
+```
+
+or
+
+```bash
+$ cmake .. [options] -DCMAKE_PREFIX_PATH=/path/to/metis/directory
+```
+
+Note: to define a path list with more than one prefixes use a semicolon as a separator.
 
 The system default Fortran compiler (e.g., f77, g95) can be overwritten as follows
 

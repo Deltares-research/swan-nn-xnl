@@ -1528,7 +1528,7 @@
 !     NUMGRD [  17]  maximum number of input grids
 !
       INTEGER NUMGRD
-      PARAMETER (NUMGRD = 17)
+      PARAMETER (NUMGRD = 18)
 !
 !  7. Local variables
 !
@@ -1552,6 +1552,7 @@
 ! grid(15): ice thickness (m)
 ! grid(16): sea-swell significant wave height
 ! grid(17): sea-swell mean wave period
+! grid(18): sea-swell mean wave direction
 !
 ! ALPG(NUMGRD)  [    0.] direction of the x-axis w.r.t. user coordinates
 ! CCURV         [ FALSE] correction curvilinear grid
@@ -1607,6 +1608,7 @@
 ! VARHICE       [   FAL] ice thickness is/is not variable over space
 ! VARHSS        [   FAL] sea-swell sig wave height is/is not variable over space
 ! VARTSS        [   FAL] sea-swell mean wave period is/is not variable over space
+! VARDSS        [   FAL] sea-swell mean wave direction is/is not variable over space
 ! XPG(NUMGRD)   [    0.] x of origin
 ! XOFFS         [    0.] offset value in x
 !                        (from user coord. system to internal coord. system)
@@ -1632,7 +1634,7 @@
       LOGICAL VARNPL,      VARTUR,      VARMUD
       LOGICAL CCURV                                                       41.53
       LOGICAL VARAICE,     VARHICE
-      LOGICAL VARHSS,      VARTSS
+      LOGICAL VARHSS,      VARTSS,      VARDSS
 !
 !     *** variables for input files ***
 !
@@ -1822,6 +1824,8 @@
 ! JDP1   [  7] old depth within array COMPDA
 ! JDP2   [  8] new depth within array COMPDA
 ! JDP3   [ 15] last read depth within array COMPDA
+! JDSS2  [   ] new sea-swell Dir within array COMPDA
+! JDSS3  [   ] last read sea-swell Dir within array COMPDA
 ! JDSXB  [  1] bottom friction dissipation within array COMPDA
 !              set by command TABLE/BLOCK
 ! JDSXL  [  1] swell dissipation within array COMPDA
@@ -2010,6 +2014,7 @@
       INTEGER             JAICE2,      JAICE3,      JHICE2,      JHICE3   41.75
       INTEGER             JPICE,       JDSXI                              41.75
       INTEGER             JHSS2,       JHSS3,       JTSS2,       JTSS3    41.82
+      INTEGER             JDSS2,       JDSS3                              42.06
       INTEGER             JPBRAG,      JRSXB,       JPQCS,       JRSXC    41.90 41.80
 !
 !     *** location and dimensions of computational grid ***

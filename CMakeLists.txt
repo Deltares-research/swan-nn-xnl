@@ -41,6 +41,7 @@ endif()
 option( OPENMP "" OFF )
 option( MPI "" OFF )
 option( JAC "" OFF )
+option( METIS "" OFF )
 option( NETCDF "" OFF )
 
 # define bin/lib//mod/src directories
@@ -57,13 +58,19 @@ set( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${LIB} )
 # have the modules placed in the mod folder
 set( CMAKE_Fortran_MODULE_DIRECTORY ${MOD} )
 
+# add find modules to the module path
+list( APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake" )
+
 # Perl is required for setting switches in the source code
 find_package( Perl REQUIRED )
 
+# find Metis
+if( METIS )
+  find_package( Metis REQUIRED )
+endif()
+
 # find netCDF
 if( NETCDF )
-  # add find module for netCDF to the module path
-  list( APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake" )
   # netCDF Fortran library is required
   find_package( NetCDF REQUIRED COMPONENTS Fortran )
 endif()
